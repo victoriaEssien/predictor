@@ -1,4 +1,3 @@
-
 const formContainer = document.getElementById('form-container');
 const userInput = document.getElementById('input');
 const predictAgeBtn = document.getElementById('predictAge');
@@ -20,13 +19,13 @@ reloadPage.addEventListener('click', () => {
     location.reload();
 });
 
-complete();
+loadingCompleted();
 
-function loading() {
+function spinnerLoading() {
     loader.hidden = false;
 }
 
-function complete() {
+function loadingCompleted() {
     loader.hidden = true;
 }
 
@@ -34,7 +33,7 @@ function displayAge() {
 
     if (userInput.value === '') {
 
-        checkIfInputIsEmpty();
+        displayMessageIfInputIsEmpty();
 
     }else {
         ageResult.textContent = `You are ${age.age} years old`;
@@ -49,7 +48,7 @@ function displayGender() {
 
     if (userInput.value === '') { 
 
-        checkIfInputIsEmpty();
+        displayMessageIfInputIsEmpty();
     } else {
 
         genderResult.textContent = `You are a ${gender.gender} with a probability of ${gender.probability}`;
@@ -60,7 +59,7 @@ function displayGender() {
     
 }
 
-function checkIfInputIsEmpty() {
+function displayMessageIfInputIsEmpty() {
     const div = document.createElement('div');
     div.className = `alert alert-danger`;
     div.style.marginTop = '5%';
@@ -114,13 +113,13 @@ function showButtons() {
 
 async function PredictAge(e) {
     e.preventDefault();
-    loading();
+    spinnerLoading();
     const apiUrl = `https://api.agify.io?name=${userInput.value}&country_id=NG`
     try {
         const res = await fetch(apiUrl);
         age = await res.json();
         displayAge();
-        complete();
+        loadingCompleted();
     } catch (err) {
         console.log("Uh oh. Something went wrong" + err);
     }
@@ -128,13 +127,13 @@ async function PredictAge(e) {
 
 async function PredictGender(e) {
     e.preventDefault();
-    loading();
+    spinnerLoading();
     const apiUrl = `https://api.genderize.io?name=${userInput.value}&country_id=NG`
     try {
         const res = await fetch(apiUrl);
         gender = await res.json();
         displayGender();
-        complete();
+        loadingCompleted();
     } catch (err) {
         console.log("Uh oh. Something went wrong" + err);
     }
